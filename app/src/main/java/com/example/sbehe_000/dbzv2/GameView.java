@@ -60,12 +60,13 @@ public class GameView extends SurfaceView implements Runnable {
     //background stars
     private ArrayList<Star> stars = new
             ArrayList<Star>();
+    private ArrayList<Star> yellowstars = new ArrayList<Star>();
 
     //Number of interactive objects
-    private int tubeCount = 2;
+    private int tubeCount = 2; //Collectable ki Blast
     private int saitamaCount = 3;
-    private int kiBlastcount = 2;
-    private int kiBlaststorage = 0;
+    private int kiBlastcount = 2; //Kamehameha object
+    private int kiBlaststorage = 0; //Count for how many ki blasts were collected
 
     //Declare the drawing objects
     private Paint paint;
@@ -83,7 +84,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Shared Prefernces to store the High Scores
     SharedPreferences sharedPreferences;
 
-    public GameView(Context context,int screenX, int screenY ){
+    public GameView(Context context,int screenX, int screenY , int level){
         super(context);
 
         this.context = context;
@@ -102,6 +103,13 @@ public class GameView extends SurfaceView implements Runnable {
             stars.add(s);
         }
 
+        int yellowstarNums = 50;
+        for( int i = 0; i < yellowstarNums ; i++){
+            Star b = new Star(screenX + 1, screenY + 1);
+            yellowstars.add(b);
+        }
+
+        game_level = level;
         //Initialize the player
         goku = new Goku(context, screenX, screenY);
         tempscreenx = screenX;
@@ -187,6 +195,10 @@ public class GameView extends SurfaceView implements Runnable {
         //Update the background extras
         for (Star s : stars) {
             s.update(goku.getSpeed());
+        }
+
+        for(Star b : yellowstars){
+            b.update(goku.getSpeed());
         }
 
         for(int i=0; i<tubeCount; i++){
@@ -322,6 +334,12 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawPoint(s.getX(), s.getY(), paint);
             }
 
+            paint.setColor(Color.YELLOW);
+            for (Star b : yellowstars){
+                paint.setStrokeWidth(b.getStarWidth());
+                canvas.drawPoint(b.getX(), b.getY(), paint);
+            }
+
             //Drawing the ground
             canvas.drawBitmap(ground,
                     0,
@@ -394,7 +412,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void control(){
         try {
-            gameThread.sleep(2);
+            gameThread.sleep(7);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

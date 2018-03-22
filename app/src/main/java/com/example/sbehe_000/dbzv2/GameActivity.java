@@ -14,6 +14,7 @@ import android.view.Display;
 
 public class GameActivity extends AppCompatActivity {
     private GameView gameView;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -23,7 +24,11 @@ public class GameActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
 
-        gameView = new GameView(this, size.x, size.y);
+        level = getIntent().getExtras().getInt("levelnum");
+
+        System.out.println(level);
+
+        gameView = new GameView(this, size.x, size.y, level);
 
         setContentView(gameView);
     }

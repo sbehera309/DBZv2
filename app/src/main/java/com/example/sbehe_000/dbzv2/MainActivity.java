@@ -6,22 +6,35 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    LinearLayout l2;
     private ImageButton buttonPlay;
+    //Animation uptodown;
+    Animation downtoup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_test);
 
         //getting the button
         buttonPlay = (ImageButton) findViewById(R.id.buttonPlay);
 
         //adding a click listener
         buttonPlay.setOnClickListener(this);
+
+        //getting layout
+        l2 = (LinearLayout) findViewById(R.id.l2);
+        //uptodown = AnimationUtils.loadAnimation(this, R.anim.uptodown);
+        downtoup = AnimationUtils.loadAnimation(this, R.anim.downtoup);
+        l2.setAnimation(downtoup);
+
     }
 
     @Override
@@ -71,6 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } */
         //starting game activity
-        startActivity(new Intent(this, GameActivity.class));
+        startActivity(new Intent(this, LevelActivity.class));
     }
 }
